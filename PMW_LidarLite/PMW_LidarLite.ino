@@ -33,7 +33,7 @@ void loop()
   dist1 = pulseIn(3, HIGH);
   dist2 = pulseIn(5, HIGH);
   dist3 = pulseIn(7, HIGH);
-  dist4 = pulseIn(8, HIGH);
+  dist4 = pulseIn(9, HIGH);
   if(dist1 != 0)
   {
     dist1 = dist1 / 10;
@@ -55,4 +55,3 @@ void loop()
     Serial.println(dist4);
   }
 }
-
