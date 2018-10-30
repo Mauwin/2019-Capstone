@@ -5,6 +5,7 @@ unsigned long dist1;
 unsigned long dist2;
 unsigned long dist3;
 unsigned long dist4;
+
 void setup()
 {
   Serial.begin(115200); // Start serial communications
@@ -14,17 +15,27 @@ void setup()
       "sensor1",             // name (only used for debugging)
       10000,                    // stack size
       NULL,                     // pointer to parameters -- for us, each task gets an ID
-      1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
+      configMAX_PRIORITIES-1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
       NULL,                     // task handle (we're not using this)
       0                         // which core to use (0 = PRO_CPU, 1 = APP_CPU, tskNO_AFFINITY = either)
     );
-    
+  
     xTaskCreatePinnedToCore(
       sensor2,               // function for task to execute
       "sensor2",             // name (only used for debugging)
       10000,                    // stack size
       NULL,                     // pointer to parameters -- for us, each task gets an ID
-      1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
+      configMAX_PRIORITIES-1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
+      NULL,                     // task handle (we're not using this)              // task handle (we're not using this)
+      0                         // which core to use (0 = PRO_CPU, 1 = APP_CPU, tskNO_AFFINITY = either)
+    );
+   
+    xTaskCreatePinnedToCore(
+      sensor3,               // function for task to execute
+      "sensor3",             // name (only used for debugging)
+      10000,                    // stack size
+      NULL,                     // pointer to parameters -- for us, each task gets an ID
+      configMAX_PRIORITIES-1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
       NULL,                     // task handle (we're not using this)              // task handle (we're not using this)
       0                         // which core to use (0 = PRO_CPU, 1 = APP_CPU, tskNO_AFFINITY = either)
     );
@@ -33,32 +44,15 @@ void setup()
       sensor4,               // function for task to execute
       "sensor4",             // name (only used for debugging)
       10000,                    // stack size
-      NULL,           
-      0                         // which core to use (0 = PRO_CPU, 1 = APP_CPU, tskNO_AFFINITY = either)
-    );
-    
-    xTaskCreatePinnedToCore(
-      sensor3,               // function for task to execute
-      "sensor3",             // name (only used for debugging)
-      10000,                    // stack size
       NULL,                     // pointer to parameters -- for us, each task gets an ID
-      1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
-      NULL,                 // pointer to parameters -- for us, each task gets an ID
-      1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
-      NULL,                     // task handle (we're not using this)
+      configMAX_PRIORITIES-1,                        // priority (0 = lowes, configMAX_PRIORITIES-1 = highest)
+      NULL,                     // task handle (we're not using this)              // task handle (we're not using this)
       0                         // which core to use (0 = PRO_CPU, 1 = APP_CPU, tskNO_AFFINITY = either)
     );
 
-
-
-  // Sensor 2
-  pinMode(8, OUTPUT); // Set pin 2 as trigger pin
-  digitalWrite(8, LOW); // Set trigger LOW for continuous read
-
-  pinMode(9, INPUT); // Set pin 3 as monitor pin
 }
 
-void sensor1(){
+void sensor1(void* param){
   for(;;){
       pinMode(2, OUTPUT); // Set pin 2 as trigger pin
       digitalWrite(2, LOW); // Set trigger LOW for continuous read
@@ -72,7 +66,7 @@ void sensor1(){
 
 }
 
-void sensor2(){
+void sensor2(void* param){
   for(;;){
     // Sensor 2
     pinMode(4, OUTPUT); // Set pin 2 as trigger pin
@@ -87,7 +81,7 @@ void sensor2(){
   }
 }
 
-void sensor3(){
+void sensor3(void* param){
   for(;;){
     // Sensor 2
     pinMode(6, OUTPUT); // Set pin 2 as trigger pin
@@ -101,7 +95,7 @@ void sensor3(){
     }
   }
 }
-void sensor4(){
+void sensor4(void* param){
   for(;;){
     // Sensor 2
     pinMode(8, OUTPUT); // Set pin 2 as trigger pin
