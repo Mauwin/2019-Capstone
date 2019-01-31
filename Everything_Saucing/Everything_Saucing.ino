@@ -3,7 +3,6 @@
     // RS 485 data sheet: https://www.sparkfun.com/datasheets/Components/General/sp3485CN-LTR.pdf
     // level converter data sheet: https://cdn.sparkfun.com/datasheets/BreakoutBoards/BSS138.pdf
 #include "DynamixelControl.h"
-#include <Servo.h>
 
 // sensors
 #include <Wire.h>
@@ -19,7 +18,6 @@ unsigned char addresses[] = {0x70,0x68,0x64, 0x72};
 
 LIDARLite myLidarLite;
 
-Servo myservo;
 DynamixelControl3 DmC;
   byte Left = 40;
   byte Right = 20;
@@ -57,8 +55,6 @@ DynamixelControl3 DmC;
   DmC.writeLED(Left, OFF);
   DmC.writeLED(Front, OFF);
   DmC.writeLED(Back, OFF);
-  myservo.attach(23);// flag raising 
-
 
  // test run
  //myservo.write(55);
@@ -218,4 +214,3 @@ void loop(){
   Serial.println(myLidarLite.distance(true,true,0x70));
 
 }
-
